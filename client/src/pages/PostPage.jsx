@@ -56,22 +56,29 @@ export default function PostPage() {
         <Spinner size='xl' />
       </div>
     );
+  if (error)
+    return (
+      <div className='flex justify-center items-center min-h-screen'>
+        <p className='text-red-500'>Failed to load the post. Please try again later.</p>
+      </div>
+    );
+
   return (
     <main className='p-3 flex flex-col max-w-6xl mx-auto min-h-screen'>
       <h1 className='text-3xl mt-10 p-3 text-center font-serif max-w-2xl mx-auto lg:text-4xl'>
-        {post && post.title}
+        {post?.title}
       </h1>
       <Link
-        to={`/search?category=${post && post.category}`}
+        to={`/search?category=${post?.category}`}
         className='self-center mt-5'
       >
         <Button color='gray' pill size='xs'>
-          {post && post.category}
+          {post?.category}
         </Button>
       </Link>
       <img
-        src={post && post.image}
-        alt={post && post.title}
+        src={post?.image}
+        alt={post?.title}
         className='mt-10 p-3 max-h-[600px] w-full object-cover'
       />
       <div className='flex justify-between p-3 border-b border-slate-500 mx-auto w-full max-w-2xl text-xs'>
@@ -82,7 +89,7 @@ export default function PostPage() {
       </div>
       <div
         className='p-3 max-w-2xl mx-auto w-full post-content'
-        dangerouslySetInnerHTML={{ __html: post && post.content }}
+        dangerouslySetInnerHTML={{ __html: post?.content }}
       ></div>
     
       <CommentSection postId={post._id} />
@@ -90,10 +97,12 @@ export default function PostPage() {
       <div className='flex flex-col justify-center items-center mb-5'>
         <h1 className='text-xl mt-5'>Recent articles</h1>
         <div className='flex flex-wrap gap-5 mt-5 justify-center'>
-          {recentPosts &&
-            recentPosts.map((post) => <PostCard key={post._id} post={post} />)}
+          {recentPosts?.map((post) => (
+            <PostCard key={post._id} post={post} />
+          ))}
         </div>
       </div>
     </main>
   );
 }
+
